@@ -1,5 +1,7 @@
 import autoBind from "auto-bind"
-import userModel from "../user/user.model"
+import userModel from "../user/user.model.js"
+import authMessage from "./auth.message.js"
+import bcryptjs from "bcryptjs"
 
 class AuthService {
     #userModel;
@@ -8,7 +10,17 @@ class AuthService {
         this.#userModel = userModel
     }
     async signup(username, password, email) {
-
+        if (!username || !password || !email || username === "" || email === "" || password === "") {
+            throw new Error(authMessage.EmptyField)
+        }
+        const hashedPassword = bcryptjs.hashSync(password, 10)
+        const newUser = new userModel({
+            username,
+            email,
+            password: hashedPassword
+        })
+        await newUser.save()
+        return newUser
     }
 }
 
