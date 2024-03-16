@@ -16,7 +16,10 @@ class AuthController {
             const newUser = await this.#service.signup(username, password, email)
             res.json({
                 message: authMessage.CreateUser,
-                data: newUser
+                data: {
+                    username: newUser.username,
+                    email: newUser.email
+                }
             })
         } catch (err) {
             next(err)
