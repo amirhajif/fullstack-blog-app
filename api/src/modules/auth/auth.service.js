@@ -2,6 +2,8 @@ import autoBind from "auto-bind"
 import userModel from "../user/user.model.js"
 import authMessage from "./auth.message.js"
 import bcryptjs from "bcryptjs"
+import createHttpError from "http-errors"
+import jwt from "jsonwebtoken"
 
 class AuthService {
     #userModel;
@@ -21,6 +23,26 @@ class AuthService {
         })
         await newUser.save()
         return newUser
+    }
+    async signin(email, password) {
+        if (!email || email == "" || !password || password == "") {
+            throw new Error(authMessage.EmptyField)
+        }
+        const user = await this.#userModel.findOne({ email })
+        if (!user) {
+            throw new createHttpError.NotFound(authMessage.EmailError)
+        }
+        const checkPassword = bcryptjs.compareSync(password, user.password)
+        if (!checkPassword) {
+            throw new createHttpError.Unauthorized(authMessage.InvalidPassword)
+        }
+        const token = jwt.sign(
+            { id: user._id },
+            process.env.JWT_SECRET
+        )
+
+        const { password: pass, ...rest } = user._doc
+        return { token, user: rest }
     }
 }
 
