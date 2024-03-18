@@ -35,6 +35,15 @@ class AuthController {
             next(err)
         }
     }
+    async google(req, res, next) {
+        try {
+            const { email, name, googlePhotoUrl } = req.body
+            const { token, user } = await this.#service.google(email, name, googlePhotoUrl)
+            res.status(200).cookie('access_token', token, { httpOnly: true }).json(user)
+        } catch (err) {
+            next(err)
+        }
+    }
 
 
 

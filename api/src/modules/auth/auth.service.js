@@ -44,6 +44,33 @@ class AuthService {
         const { password: pass, ...rest } = user._doc
         return { token, user: rest }
     }
+    async google(email, name, googlePhotoUrl) {
+        const user = this.#userModel.findOne({ email })
+        if (user) {
+            const token = jwt.sign(
+                { id: user._id },
+                process.env.JWT_SECRET
+            )
+            const { password: pass, ...rest } = user._doc
+            return { token, user: rest }
+        } else {
+            const generatedPassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8)
+            const hashedPassword = bcryptjs.hashSync(generatedPassword, 10)
+            const newUser = new userModel({
+                username: name.toLowerCase().split(" ").join("") + Math.random().toString(9).slice(-4),
+                email,
+                password: hashedPassword,
+                profilePicture: googlePhotoUrl
+            })
+            await newUser.save()
+            const token = jwt.sign(
+                { id: user._id },
+                process.env.JWT_SECRET
+            )
+            const { password: pass, ...rest } = user._doc
+            return { token, user: rest }
+        }
+    }
 }
 
 export default new AuthService()
