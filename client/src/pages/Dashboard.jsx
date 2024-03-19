@@ -12,8 +12,8 @@ export default function Dashboard() {
         if (tabFromUrl) setTab(tabFromUrl)
     }, [location.search])
     return (
-        <div>
-            <div>
+        <div className='min-h-screen flex flex-col md:flex-row'>
+            <div className='md:w-56'>
                 {/* sidebar */}
                 <DashSidebar />
             </div>

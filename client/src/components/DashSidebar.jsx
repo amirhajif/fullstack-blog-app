@@ -12,7 +12,7 @@ export default function DashSidebar() {
         if (tabFromUrl) setTab(tabFromUrl)
     }, [location.search])
     return (
-        <Sidebar>
+        <Sidebar className='w-full md:w-56'>
             <Sidebar.Items>
                 <Sidebar.ItemGroup>
                     <Link to='/dashboard?tab=profile'>
