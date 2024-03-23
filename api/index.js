@@ -4,10 +4,12 @@ import userRoutes from "./src/modules/user/user.routes.js"
 import authRoutes from "./src/modules/auth/auth.routes.js"
 import NotFoundHandler from "./src/common/exception/notfound.handler.js"
 import AllExceptionHandler from "./src/common/exception/all-exception.handler.js"
+import cookieParser from "cookie-parser"
 
 const main = async () => {
     const app = express()
     app.use(express.json())
+    app.use(cookieParser())
     DBconnect()
     app.use("/api/user", userRoutes)
     app.use("/api/auth", authRoutes)
