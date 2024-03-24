@@ -8,7 +8,8 @@ const userMessage = {
     UserUpdated: "Your Data Updated",
     LoginSuccessfull: "You Login Successfull",
     UserDeleted: "User has been deleted",
-    NotFoundUser: "Dont Found use with this id"
+    NotFoundUser: "Dont Found use with this id",
+    UserSignout: "User signout successfully",
 }
 
 export default userMessage

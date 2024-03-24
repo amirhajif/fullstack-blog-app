@@ -32,6 +32,13 @@ class UserController {
             next(err)
         }
     }
+    async signout(req, res, next) {
+        try {
+            res.clearCookie('access_token').status(200).json(userMessage.UserSignout)
+        } catch (err) {
+            next(err)
+        }
+    }
 
 }
 
