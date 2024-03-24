@@ -45,7 +45,17 @@ class UserService {
         }, { new: true })
         const { password, ...rest } = updatedUser._doc
         return { user: rest }
+    }
 
+    async delete(id, reqId) {
+        if (id !== reqId) {
+            throw new createHttpError.Unauthorized(userMessage.UnAuthorized)
+        }
+        const foundedUser = await this.#model.findByIdAndDelete(id)
+        if (!foundedUser) {
+            throw new createHttpError.NotFound(userMessage.NotFoundUser)
+        }
+        return userMessage.UserDeleted
     }
 }
 

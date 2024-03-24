@@ -6,7 +6,9 @@ const userMessage = {
     UsernameLowercase: "Your Username Should be lowercase",
     UsernameLetters: "Your Username Should Contain Just a-z and numbers",
     UserUpdated: "Your Data Updated",
-    LoginSuccessfull: "You Login Successfull"
+    LoginSuccessfull: "You Login Successfull",
+    UserDeleted: "User has been deleted",
+    NotFoundUser: "Dont Found use with this id"
 }
 
 export default userMessage

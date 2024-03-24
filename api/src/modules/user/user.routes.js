@@ -11,5 +11,6 @@ router.get("/test", (req, res) => {
     })
 })
 router.put('/update/:userId', verifyToken, userController.update)
+router.delete('/delete/:userId', verifyToken, userController.delete)
 
 export default router
