@@ -113,7 +113,6 @@ export default function DashProfile() {
         }
     }
     const handleSignOut = async () => {
-        console.log("first")
         try {
             const res = await fetch('/api/user/signout', {
                 method: 'POST'
