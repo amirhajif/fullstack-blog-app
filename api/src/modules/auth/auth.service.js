@@ -37,7 +37,7 @@ class AuthService {
             throw new createHttpError.Unauthorized(authMessage.InvalidPassword)
         }
         const token = jwt.sign(
-            { id: user._id },
+            { id: user._id, isAdmin: user.isAdmin },
             process.env.JWT_SECRET
         )
 
@@ -48,7 +48,7 @@ class AuthService {
         const user = this.#userModel.findOne({ email })
         if (user) {
             const token = jwt.sign(
-                { id: user._id },
+                { id: user._id, isAdmin: user.isAdmin },
                 process.env.JWT_SECRET
             )
             const { password: pass, ...rest } = user._doc
@@ -64,7 +64,7 @@ class AuthService {
             })
             await newUser.save()
             const token = jwt.sign(
-                { id: user._id },
+                { id: user._id, isAdmin: newUser.isAdmin },
                 process.env.JWT_SECRET
             )
             const { password: pass, ...rest } = user._doc
