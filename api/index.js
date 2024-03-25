@@ -2,6 +2,7 @@ import express from "express"
 import DBconnect from "./src/config/mongoose.config.js"
 import userRoutes from "./src/modules/user/user.routes.js"
 import authRoutes from "./src/modules/auth/auth.routes.js"
+import postRotes from "./src/modules/post/post.routes.js"
 import NotFoundHandler from "./src/common/exception/notfound.handler.js"
 import AllExceptionHandler from "./src/common/exception/all-exception.handler.js"
 import cookieParser from "cookie-parser"
@@ -13,6 +14,7 @@ const main = async () => {
     DBconnect()
     app.use("/api/user", userRoutes)
     app.use("/api/auth", authRoutes)
+    app.use("/api/post", postRotes)
     NotFoundHandler(app)
     AllExceptionHandler(app)
     app.listen(3000, () => {
