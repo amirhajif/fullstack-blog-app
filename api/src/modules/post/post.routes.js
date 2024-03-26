@@ -1,5 +1,6 @@
 import { Router } from "express";
-
+import postController from './post.controller.js'
+import { verifyToken } from "../../common/utils/verifyUser.js"
 const router = Router()
 
 router.get('/posts', (req, res) => {
@@ -7,5 +8,7 @@ router.get('/posts', (req, res) => {
         message: "success"
     })
 })
+
+router.post('/create', verifyToken, postController.createPost)
 
 export default router 
