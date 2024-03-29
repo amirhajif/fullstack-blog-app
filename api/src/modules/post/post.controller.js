@@ -37,6 +37,17 @@ class PostController {
             next(err)
         }
     }
+    async delete(req, res, next) {
+        try {
+            const { user } = req
+            const { postId, userId } = req.params
+            const message = await this.#service.delete(user, postId, userId)
+            res.json(message)
+
+        } catch (err) {
+            next(err)
+        }
+    }
 }
 
 export default new PostController()

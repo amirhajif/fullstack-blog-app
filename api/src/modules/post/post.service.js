@@ -53,6 +53,13 @@ class PostService {
 
         return { posts, totalPosts, lastMonthPosts }
     }
+    async delete(user, postId, userId) {
+        if (!user.isAdmin || user.id !== userId) {
+            throw new createHttpError.Forbidden(postMessage.CantDelete)
+        }
+        await this.#postModel.findByIdAndDelete(postId)
+        return postMessage.DeleteSuccessfully
+    }
 }
 
 export default new PostService()
