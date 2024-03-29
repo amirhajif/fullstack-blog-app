@@ -19,6 +19,24 @@ class PostController {
             next(err)
         }
     }
+    async getPosts(req, res, next) {
+        try {
+            const startIndex = parseInt(req.query.startIndex) || 0
+            const limit = parseInt(req.query.limit) || 0
+            const order = req.query.order === 'asc' ? 1 : -1
+            const { userId, category, slug, postId, searchTerm } = req.query
+            const { posts, totalPosts, lastMonthPosts } = await this.#service.getPosts(startIndex, limit, order, userId, category, slug, postId, searchTerm)
+            // console.log(totalPosts)
+            res.status(200).json({
+                posts,
+                totalPosts,
+                lastMonthPosts
+            })
+
+        } catch (err) {
+            next(err)
+        }
+    }
 }
 
 export default new PostController()
