@@ -57,6 +57,33 @@ class UserService {
         }
         return userMessage.UserDeleted
     }
+
+    async getUsers(user, startIndex, limit, sortDirection) {
+        if (!user.isAdmin) {
+            throw new createHttpError.Forbidden(userMessage.ShouldBeAdmin)
+        }
+        const users = await this.#model.find().sort({ createdAt: sortDirection }).skip(startIndex).limit(limit)
+        const usersWithoutPassword = users.map((user) => {
+            const { password, ...rest } = user._doc;
+            return rest;
+        });
+
+        const totalUsers = await this.#model.countDocuments({})
+
+        const now = new Date()
+
+        const oneMonthAgo = new Date(
+            now.getFullYear(),
+            now.getMonth() - 1,
+            now.getDay()
+        )
+
+        const lastMonthUsers = await this.#model.countDocuments({
+            createdAt: { $gte: oneMonthAgo }
+        })
+
+        return { users: usersWithoutPassword, totalUsers, lastMonthUsers }
+    }
 }
 
 export default new UserService()

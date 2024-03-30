@@ -40,6 +40,21 @@ class UserController {
         }
     }
 
+    async getUsers(req, res, next) {
+        try {
+            const { user } = req
+            const startIndex = parseInt(req.query.startIndex) || 0
+            const limit = parseInt(req.query.limit) || 9
+            const sortDirection = req.query.sort === 'asc' ? 1 : -1
+
+            const { users, totalUsers, lastMonthUsers } = await this.#service.getUsers(user, startIndex, limit, sortDirection)
+
+            res.json({ users, totalUsers, lastMonthUsers })
+        } catch (err) {
+            next(err)
+        }
+    }
+
 }
 
 export default new UserController()

@@ -10,6 +10,7 @@ const userMessage = {
     UserDeleted: "User has been deleted",
     NotFoundUser: "Dont Found use with this id",
     UserSignout: "User signout successfully",
+    ShouldBeAdmin: "You Should be admin for request users list"
 }
 
 export default userMessage
