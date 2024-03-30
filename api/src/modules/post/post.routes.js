@@ -12,5 +12,6 @@ router.get('/posts', (req, res) => {
 router.post('/create', verifyToken, postController.createPost)
 router.get('/getposts', postController.getPosts)
 router.delete('/deletepost/:postId/:userId', verifyToken, postController.delete)
+router.put('/updatepost/:postId/:userId', verifyToken, postController.update)
 
 export default router 

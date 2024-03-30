@@ -47,6 +47,19 @@ class PostController {
             next(err)
         }
     }
+
+    async update(req, res, next) {
+        try {
+            const { user } = req
+            const { postId, userId } = req.params
+            const { title, content, category, image } = req.body
+            const updatedPost = await this.#service.update(user, postId, userId, title, content, category, image)
+            res.status(200).json(updatedPost)
+
+        } catch (err) {
+            next(err)
+        }
+    }
 }
 
 export default new PostController()

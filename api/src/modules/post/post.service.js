@@ -60,6 +60,22 @@ class PostService {
         await this.#postModel.findByIdAndDelete(postId)
         return postMessage.DeleteSuccessfully
     }
+    async update(user, postId, userId, title, content, category, image) {
+        if (!user.isAdmin || user.id !== userId) {
+            throw new createHttpError.Forbidden(postMessage.CantDelete)
+        }
+        const updatedPost = await this.#postModel.findByIdAndUpdate(postId, {
+            $set: {
+                title,
+                content,
+                category,
+                image
+            }
+        }, { new: true })
+
+        return updatedPost
+
+    }
 }
 
 export default new PostService()
