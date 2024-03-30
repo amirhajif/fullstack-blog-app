@@ -26,7 +26,6 @@ class PostController {
             const order = req.query.order === 'asc' ? 1 : -1
             const { userId, category, slug, postId, searchTerm } = req.query
             const { posts, totalPosts, lastMonthPosts } = await this.#service.getPosts(startIndex, limit, order, userId, category, slug, postId, searchTerm)
-            // console.log(totalPosts)
             res.status(200).json({
                 posts,
                 totalPosts,
