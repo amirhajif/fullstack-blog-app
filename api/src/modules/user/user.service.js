@@ -47,8 +47,8 @@ class UserService {
         return { user: rest }
     }
 
-    async delete(id, reqId) {
-        if (id !== reqId) {
+    async delete(id, user) {
+        if (id !== user.id && !user.isAdmin) {
             throw new createHttpError.Unauthorized(userMessage.UnAuthorized)
         }
         const foundedUser = await this.#model.findByIdAndDelete(id)
