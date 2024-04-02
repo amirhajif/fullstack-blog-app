@@ -9,7 +9,10 @@ class CommentController {
 
     async create(req, res, next) {
         try {
-            res.json("hello")
+            const { content, postId, userId } = req.body
+            const { user } = req
+            const newComment = await this.#service.create(user, content, postId, userId)
+            res.json(newComment)
         } catch (err) {
             next(err)
         }
