@@ -1,4 +1,4 @@
-import { Button, Textarea } from 'flowbite-react'
+import { Alert, Button, Textarea } from 'flowbite-react'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -12,6 +12,29 @@ export default function CommentSection({ postId }) {
     const [commentToDelete, setCommentToDelete] = useState(null);
     const handleSubmit = async (e) => {
         e.preventDefault();
+        try {
+            const res = await fetch('/api/comment/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    content: comment,
+                    postId,
+                    userId: currentUser._id,
+                }),
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+                setComment('');
+                setCommentError(null);
+                setComments([data, ...comments]);
+            }
+        } catch (error) {
+            setCommentError(error.message);
+        }
     };
     return (
         <div className='max-w-2xl mx-auto w-full p-3'>
@@ -56,6 +79,11 @@ export default function CommentSection({ postId }) {
                                 Submit
                             </Button>
                         </div>
+                        {commentError && (
+                            <Alert color='failure' className='mt-5'>
+                                {commentError}
+                            </Alert>
+                        )}
                     </form>
                 )}
 

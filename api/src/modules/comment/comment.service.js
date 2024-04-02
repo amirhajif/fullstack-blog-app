@@ -18,8 +18,8 @@ class CommentService {
             postId,
             userId
         }
-        await this.#model.create(newComment)
-        return newComment
+        const createdComment = await this.#model.create(newComment)
+        return createdComment
     }
 }
 
