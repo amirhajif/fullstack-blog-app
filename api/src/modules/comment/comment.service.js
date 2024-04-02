@@ -21,6 +21,11 @@ class CommentService {
         const createdComment = await this.#model.create(newComment)
         return createdComment
     }
+
+    async getPostComment(postId) {
+        const comments = await this.#model.find({ postId: postId }).sort({ createdAt: -1 })
+        return comments
+    }
 }
 
 export default new CommentService()

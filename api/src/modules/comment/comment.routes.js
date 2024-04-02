@@ -4,4 +4,5 @@ import { verifyToken } from "../../common/utils/verifyUser.js"
 
 const router = Router()
 router.post('/create', verifyToken, commentController.create)
+router.get('/getpostcomments/:postId', commentController.getComment)
 export default router
