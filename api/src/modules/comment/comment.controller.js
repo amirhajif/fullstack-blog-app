@@ -21,7 +21,7 @@ class CommentController {
         try {
             const { postId } = req.params
             const commments = await this.#service.getPostComment(postId)
-            res.json(commments)
+            res.status(200).json(commments)
         } catch (error) {
             next(err)
         }

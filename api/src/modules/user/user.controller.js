@@ -56,6 +56,16 @@ class UserController {
         }
     }
 
+    async getUser(req, res, next) {
+        try {
+            const { userId } = req.params
+            const { user } = await this.#service.getUser(userId)
+            res.json(user)
+        } catch (err) {
+            next(err)
+        }
+    }
+
 }
 
 export default new UserController()

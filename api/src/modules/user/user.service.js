@@ -84,6 +84,15 @@ class UserService {
 
         return { users: usersWithoutPassword, totalUsers, lastMonthUsers }
     }
+
+    async getUser(userId) {
+        const user = await this.#model.findById(userId)
+        if (!user) {
+            throw new createHttpError.NotFound(userMessage.NotFoundUser)
+        }
+        const { password, ...rest } = user._doc
+        return { user: rest }
+    }
 }
 
 export default new UserService()
