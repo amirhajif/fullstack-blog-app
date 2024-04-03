@@ -27,6 +27,18 @@ class CommentController {
         }
     }
 
+    async likeComment(req, res, next) {
+        try {
+            const { commentId } = req.params
+            const { user } = req
+            const comment = await this.#service.commentLike(user, commentId)
+            res.status(200).json(comment)
+        } catch (err) {
+            next(err)
+        }
+
+    }
+
 }
 
 export default new CommentController()

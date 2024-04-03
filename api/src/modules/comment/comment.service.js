@@ -2,6 +2,7 @@ import autoBind from "auto-bind";
 import commentModel from './comment.model.js'
 import createHttpError from "http-errors";
 import commentMessage from "./comment.message.js";
+import Comment from "./comment.model.js";
 class CommentService {
     #model
     constructor() {
@@ -25,6 +26,23 @@ class CommentService {
     async getPostComment(postId) {
         const comments = await this.#model.find({ postId: postId }).sort({ createdAt: -1 })
         return comments
+    }
+    async commentLike(user, commentId) {
+        const comment = await this.#model.findById(commentId)
+        if (!comment) {
+            throw new createHttpError.NotFound(commentMessage.CommentNotAvailable)
+        }
+
+        const userIndex = comment.likes.indexOf(user.id)
+        if (userIndex === -1) {
+            comment.likes.push(user.id)
+            comment.numberOfLikes += 1
+        } else {
+            comment.likes.splice(userIndex, 1)
+            comment.numberOfLikes -= 1
+        }
+        await comment.save()
+        return comment
     }
 }
 
