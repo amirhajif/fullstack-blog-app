@@ -2,6 +2,7 @@ import { Alert, Button, Textarea } from 'flowbite-react'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import Comment from './Comment'
 
 export default function CommentSection({ postId }) {
     const { currentUser } = useSelector((state) => state.user)
