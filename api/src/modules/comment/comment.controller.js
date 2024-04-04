@@ -39,6 +39,18 @@ class CommentController {
 
     }
 
+    async edit(req, res, next) {
+        try {
+            const { commentId } = req.params
+            const { user } = req
+            const { content } = req.body
+            const editedComment = await this.#service.commentEdit(user, commentId, content)
+            res.json(editedComment)
+        } catch (err) {
+            next(err)
+        }
+    }
+
 }
 
 export default new CommentController()

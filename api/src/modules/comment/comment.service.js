@@ -44,6 +44,24 @@ class CommentService {
         await comment.save()
         return comment
     }
+
+    async commentEdit(user, commentId, content) {
+        const comment = await this.#model.findById(commentId)
+        if (!comment) {
+            throw new createHttpError.NotFound(commentMessage.CommentNotAvailable)
+        }
+        if (comment.userId != user.id && !user.isAdmin) {
+            throw new createHttpError.Unauthorized(commentMessage.CheckRoleAndAuth)
+        }
+
+        const editedComment = await this.#model.findByIdAndUpdate(commentId, {
+            content
+        }, {
+            new: true
+        })
+
+        return editedComment
+    }
 }
 
 export default new CommentService()
