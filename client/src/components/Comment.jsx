@@ -7,10 +7,11 @@ import { Button, Textarea } from 'flowbite-react'
 
 
 
-export default function Comment({ comment, onLike, onEdit }) {
+export default function Comment({ comment, onLike, onEdit, onDelete }) {
     const { currentUser } = useSelector((state) => state.user)
     const [user, setUser] = useState({})
     const [isEditing, setIsEditing] = useState(false);
+
     const [editedContent, setEditedContent] = useState(comment.content);
     useEffect(() => {
         const getUser = async () => {
@@ -49,6 +50,7 @@ export default function Comment({ comment, onLike, onEdit }) {
             console.log(error.message);
         }
     };
+
     return (
         <div className='flex p-4 border-b dark:border-gray-600 text-sm'>
             <div className='flex-shrink-0 mr-3'>
@@ -126,7 +128,7 @@ export default function Comment({ comment, onLike, onEdit }) {
                                         </button>
                                         <button
                                             type='button'
-                                            // onClick={() => onDelete(comment._id)}
+                                            onClick={() => onDelete(comment._id)}
                                             className='text-gray-400 hover:text-red-500'
                                         >
                                             Delete
