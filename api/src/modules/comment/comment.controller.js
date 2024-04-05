@@ -51,6 +51,17 @@ class CommentController {
         }
     }
 
+    async delete(req, res, next) {
+        try {
+            const { commentId } = req.params
+            const { user } = req
+            const message = await this.#service.commentDelete(user, commentId)
+            res.json(message)
+        } catch (err) {
+            next(err)
+        }
+    }
+
 }
 
 export default new CommentController()

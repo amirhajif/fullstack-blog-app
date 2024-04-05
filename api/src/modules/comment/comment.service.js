@@ -62,6 +62,19 @@ class CommentService {
 
         return editedComment
     }
+    async commentDelete(user, commentId) {
+        const comment = await this.#model.findById(commentId)
+        if (!comment) {
+            throw new createHttpError.NotFound(commentMessage.CommentNotAvailable)
+        }
+        if (comment.userId != user.id && !user.isAdmin) {
+            throw new createHttpError.Unauthorized(commentMessage.CheckRoleAndAuth)
+        }
+        await this.#model.findByIdAndDelete(commentId)
+
+
+        return commentMessage.CommentDeleted
+    }
 }
 
 export default new CommentService()
