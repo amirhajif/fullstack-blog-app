@@ -75,6 +75,29 @@ class CommentService {
 
         return commentMessage.CommentDeleted
     }
+
+    async getComments(startIndex, limit, order, user) {
+        if (!user.isAdmin) {
+            throw new createHttpError.Forbidden(commentMessage.CheckRoleAndAuth)
+        }
+        const comments = await this.#model.find()
+            .sort({ createdAt: order })
+            .skip(startIndex)
+            .limit(limit);
+
+        const totalComments = await this.#model.countDocuments();
+        const now = new Date();
+        const oneMonthAgo = new Date(
+            now.getFullYear(),
+            now.getMonth() - 1,
+            now.getDate()
+        );
+        const lastMonthComments = await this.#model.countDocuments({
+            createdAt: { $gte: oneMonthAgo },
+        });
+
+        return { comments, totalComments, lastMonthComments }
+    }
 }
 
 export default new CommentService()

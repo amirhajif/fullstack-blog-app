@@ -62,6 +62,22 @@ class CommentController {
         }
     }
 
+    async getComments(req, res, next) {
+        try {
+            const startIndex = parseInt(req.query.startIndex) || 0
+            const limit = parseInt(req.query.limit) || 9
+            const order = req.query.order === 'asc' ? 1 : -1
+            const { user } = req
+            const { comments, totalComments, lastMonthComments } = await this.#service.getComments(startIndex, limit, order, user)
+
+            res.json({
+                comments, totalComments, lastMonthComments
+            })
+        } catch (err) {
+            next(err)
+        }
+    }
+
 }
 
 export default new CommentController()
